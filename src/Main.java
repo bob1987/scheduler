@@ -67,18 +67,83 @@ public class Main {
                 if(StringUtils.isBlank(chartTitle) && StringUtils.isBlank(numberOfProfessors)) {
                     JOptionPane.showMessageDialog(null, "Both fields must be filled in!", null, JOptionPane.ERROR_MESSAGE);
                 } else if(StringUtils.isBlank(chartTitle)) {
-                    JOptionPane.showMessageDialog(null, "Chart title must be filled in.", null, JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Chart title must be filled in!", null, JOptionPane.ERROR_MESSAGE);
                 } else if(StringUtils.isBlank(numberOfProfessors)) {
-                    JOptionPane.showMessageDialog(null, "Number of Professors must be filled in", null, JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Number of Professors must be filled in!", null, JOptionPane.ERROR_MESSAGE);
                 } else {
-                    System.out.println("Chart Title: " + chartTitle);
-                    System.out.println("Number of Professors: " + numberOfProfessors);
+                    Integer professors;
+                    try {
+                        professors = Integer.parseInt(numberOfProfessors);
+                        createNewSchedule(chartTitle, professors);
+                    } catch (Exception e2) {
+                        JOptionPane.showMessageDialog(null, "Please enter a number!", null, JOptionPane.ERROR_MESSAGE);
+                    }
                 }
             }
         });
         createNewSchedulePanel.add(createButton, c);
 
         frame.add(tabbedPane);
-        frame.show();
+        frame.setVisible(true);
+    }
+
+    public static void createNewSchedule(String chartTitle, int numberOfProfessors) {
+        JFrame frame = new JFrame();
+        frame.setSize(900, 1000);
+        frame.setTitle(chartTitle);
+        frame.setLocationRelativeTo(null);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+        JPanel addDataPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
+
+        c.gridx = 0;
+        c.gridy = 0;
+        c.ipadx = 15;
+        JLabel professor = new JLabel("Professor Name");
+        addDataPanel.add(professor, c);
+
+        c.gridx = 1;
+        JLabel monday = new JLabel("Monday");
+        addDataPanel.add(monday, c);
+
+        c.gridx = 2;
+        JLabel tuesday = new JLabel("Tuesday");
+        addDataPanel.add(tuesday, c);
+
+        c.gridx = 3;
+        JLabel wednesday = new JLabel("Wednesday");
+        addDataPanel.add(wednesday, c);
+
+        c.gridx = 4;
+        JLabel thursday = new JLabel("Thursday");
+        addDataPanel.add(thursday, c);
+
+        c.gridx = 5;
+        JLabel friday = new JLabel("Friday");
+        addDataPanel.add(friday, c);
+
+        c.gridx = 6;
+        JLabel saturday = new JLabel("Saturday");
+        addDataPanel.add(saturday, c);
+
+        c.gridy = 1;
+        for(int i = 1 ; i<=numberOfProfessors ; i++) {
+            for(int j = 1 ; j<=7 ; j++) {
+                c.gridx = j-1;
+                JTextField textField = new JTextField("", 20);
+                addDataPanel.add(textField, c);
+            }
+            c.gridy += 1;
+        }
+
+        c.gridx = 3;
+        c.gridy = 7;
+        JButton save = new JButton("Save");
+        addDataPanel.add(save, c);
+
+        frame.add(addDataPanel);
+        frame.setVisible(true);
     }
 }
